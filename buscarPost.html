@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Questão 02 - Buscar Post</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    input, button {
+      padding: 8px;
+    }
+    #resultado {
+      margin-top: 20px;
+    }
+    .erro {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Buscar Post</h1>
+  <div>
+    <input type="number" id="inputId" placeholder="Digite o ID do post">
+    <button id="btnBuscar">Buscar</button>
+  </div>
+
+  <div id="resultado"></div>
+
+  <script>
+    const posts = [
+      { userId: 1, id: 1, title: "Primeiro post", body: "Aprendendo a manipular o DOM." },
+      { userId: 1, id: 2, title: "Segundo post", body: "Arrays de objetos são parecidos com o JSON de uma API." },
+      { userId: 2, id: 3, title: "Terceiro post", body: "Em breve vamos buscar estes dados no servidor." },
+      { userId: 2, id: 4, title: "Quarto post", body: "O método find devolve o primeiro item encontrado." },
+      { userId: 3, id: 5, title: "Quinto post", body: "Se nada for encontrado, find devolve undefined." }
+    ];
+
+    const inputId = document.getElementById("inputId");
+    const btnBuscar = document.getElementById("btnBuscar");
+    const resultado = document.getElementById("resultado");
+
+    btnBuscar.addEventListener("click", () => {
+      const valor = inputId.value.trim();
+
+      // Limpa resultado anterior
+      resultado.innerHTML = "";
+
+      // Se o campo estiver vazio
+      if (valor === "") {
+        resultado.textContent = "Digite um ID.";
+        return;
+      }
+
+      const idBuscado = Number(valor);
+      const postEncontrado = posts.find(p => p.id === idBuscado);
+
+      if (postEncontrado) {
+        const titulo = document.createElement("h2");
+        titulo.textContent = postEncontrado.title;
+
+        const corpo = document.createElement("p");
+        corpo.textContent = postEncontrado.body;
+
+        resultado.appendChild(titulo);
+        resultado.appendChild(corpo);
+      } else {
+        // Se o post não existir, exibe mensagem em vermelho
+        const msgErro = document.createElement("p");
+        msgErro.className = "erro";
+        msgErro.textContent = `Post não encontrado (ID ${valor}). Os IDs válidos vão de 1 a 5.`;
+        resultado.appendChild(msgErro);
+      }
+    });
+  </script>
+</body>
+</html>
